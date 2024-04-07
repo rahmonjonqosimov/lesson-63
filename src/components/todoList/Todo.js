@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { toast } from "react-toastify";
-import { RiDeleteBin6Line } from "react-icons/ri";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 const Todo = () => {
   const [list, setList] = useState("");
@@ -10,7 +10,16 @@ const Todo = () => {
     e.preventDefault();
     if (!list.trim()) {
       console.log("ok");
-      return alert("salom");
+      return toast.warn("Iltimos maydonni to'ldiring!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
     let lists = {
       id: new Date().getTime(),
@@ -44,6 +53,7 @@ const Todo = () => {
           <button>Add</button>
         </form>
         <div>{listsBox()}</div>
+        <ToastContainer />
       </div>
     </div>
   );
