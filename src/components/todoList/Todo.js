@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -6,6 +6,10 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 const Todo = () => {
   const [list, setList] = useState("");
   const [data, setData] = useState([]);
+  let effect = useEffect(() => {
+    localStorage.setItem("data", JSON.stringify(data));
+  }, [data]);
+  console.log(effect);
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!list.trim()) {
@@ -26,14 +30,22 @@ const Todo = () => {
       title: list,
     };
     setData([...data, lists]);
+    // effect();
     setList("");
+  };
+
+  const deleteList = (e) => {
+    let id = e.target.closest("[data-id]").dataset.id;
+    let newData = data.filter((el) => el.id !== +id);
+    setData([...newData]);
+    // effect
   };
 
   const listsBox = () => {
     return data?.map((el, i) => (
       <div className="lists" data-id={el.id} key={i}>
         <h5 title={el.title}>{el.title}</h5>
-        <button name="del">
+        <button onClick={deleteList} name="del">
           <RiDeleteBin6Line className="delete" />
         </button>
       </div>
